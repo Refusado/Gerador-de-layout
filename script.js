@@ -1,17 +1,10 @@
-function testo () {
-    let loops = 0;
-    let x = 8;
-
-    for (let i = 0; i < x; i++) {
-        loops++;
-        let value = Math.floor((Math.random() * 600 + 1));
-
-        if (value !== 1) {
-            i--;
-            continue ;
-        }
+// GERAR UM NÚMERO ALEATÓRIO SE BASEANDO EM UM MÚLTIPLO 
+function randomMultiple(min, max, multiple) {
+    let result = Math.floor((Math.random() * (max - min) + min));
+    while (result % multiple != 0) {
+        result = Math.floor((Math.random() * (max - min) + min));
     }
-    console.info(loops);
+    return result;
 }
 
 function Rect(pX, pY, width, height) {
@@ -24,36 +17,22 @@ function Rect(pX, pY, width, height) {
 }
 
 const allRects = [];
-
-let rounds = 0;
 let firstRound = true;
+let rounds = 0;
 
-for (let i = 0; i < 6; i++) {
+for (let i = 0; i < 4;) {
     rounds++;
-    let randW = randomMultiple(10, 200, 40);
-    let randH = randomMultiple(10, 200, 40);
-    
-    let randX = randomMultiple(10, 600, 40);
-    let randY = randomMultiple(10, 600, 40);
-    
-    let endX    = randX + randW;
-    let endY    = randY + randH;
+    let randW = randomMultiple(10, 200, 80);
+    let randH = randomMultiple(10, 200, 80);
+    let randX = randomMultiple(0, (600 - randW), 40);
+    let randY = randomMultiple(0, (600 - randH), 40);
+    let endX  = randX + randW;
+    let endY  = randY + randH;
     
     if (endX > 600 || endY > 600) {
-        i--;
+        // i--;
         continue;
     }
-
-
-    function randomMultiple(min, max, multiple) {
-        let result = Math.floor((Math.random() * (max - min) + min));
-        while (result % multiple != 0) {
-            result = Math.floor((Math.random() * (max - min) + min));
-        }
-        return result;
-    }
-
-    
     
     let colision = false;
     if (!firstRound) {
@@ -63,29 +42,30 @@ for (let i = 0; i < 6; i++) {
                 endX    > allRects[ii].pX && endX   < allRects[ii].eX ||
                 randX   < allRects[ii].pX && endX   > allRects[ii].pX ||
                 randX   < allRects[ii].eX && endX   > allRects[ii].eX ||
-                randX   == allRects[ii].pX || endX  == allRects[ii].eX 
-                ) {
+                randX  == allRects[ii].pX || endX  == allRects[ii].eX
+            ) {
                 if (
                     randY   > allRects[ii].pY && randY  < allRects[ii].eY ||
                     endY    > allRects[ii].pY && endY   < allRects[ii].eY ||
                     randY   < allRects[ii].pY && endY   > allRects[ii].pY ||
                     randY   < allRects[ii].eY && endY   > allRects[ii].eY ||
-                    randY   == allRects[ii].pY || endY  == allRects[ii].eY
+                    randY  == allRects[ii].pY || endY  == allRects[ii].eY
                 ) {
                         colision = true;
+                        break;
                 }
             }
         }
     }
     
     if (colision) {
-        i--;
+        // i--;
         continue;
     }
     
+    allRects.push(new Rect(randX, randY, randW, randH));
     firstRound = false;
-    const newRect = new Rect(randX, randY, randW, randH);
-    allRects.push(newRect);
+    i++;
 }
 
 console.info(rounds);
