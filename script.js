@@ -1,14 +1,5 @@
 const canvas = document.getElementById('canvas');
 
-// SISTEMA PARA SÓ EXECUTAR A FUNÇÃO DEPOIS DE UM CERTO TEMPO SEM UM CLICK
-let timer;
-canvas.addEventListener('click', () => {
-    generateRects();
-
-    clearTimeout(timer);
-    timer = setTimeout(() => clearAllRects(), 3000);
-});
-
 class Rect {
     constructor(pX, pY, width, height) {
         this.pX = pX,
@@ -72,7 +63,42 @@ function generateRects() {
     }
     drawRects();
     // console.info(rounds);
+
+
+    
+    // console.info(allRects);
+    getCenterOfMass();
 }
+
+let xCM;
+let yCM;
+function getCenterOfMass() {
+    let allMass = [];
+    let firstCalc = [];
+    let secondCalc = [];
+
+    for (const rect of allRects) {
+        let mass = rect.width * rect.height;
+        let posX = rect.pX + (rect.width / 2);
+        let posY = rect.pY + (rect.height / 2);
+
+        firstCalc.push(mass * posX);
+        secondCalc.push(mass * posY);
+        allMass.push(mass);
+
+
+        // ctx.fillStyle = 'blue';
+        // ctx.fillRect((posX - 3), (posY - 3), 6, 6);
+    }
+
+
+    let firstResult = firstCalc.reduce((acc, curr) => acc + curr);
+    let secondResult = secondCalc.reduce((acc, curr) => acc + curr);
+
+    xCM = Math.floor(firstResult / (allMass.reduce((acc, curr) => acc + curr)));
+    yCM = Math.floor(secondResult / (allMass.reduce((acc, curr) => acc + curr)));
+}
+
 
 const ctx = canvas.getContext('2d');
 
@@ -80,7 +106,7 @@ function drawRects() {
     for (const rect of allRects) {
         ctx.fillStyle = '#00000044';
         ctx.fillRect(rect.pX, rect.pY, rect.width, rect.height);
-        ctx.strokeRect(rect.pX, rect.pY, rect.width, rect.height);
+        // ctx.strokeRect(rect.pX, rect.pY, rect.width, rect.height);
     }
 }
 
@@ -98,3 +124,23 @@ function randomMultiple(min, max, multiple) {
     }
     return result;
 }
+
+
+
+
+
+
+
+
+canvas.addEventListener('click', () => {
+    generateRects();
+    let rounds = 0;
+    while (xCM !== 300 || yCM !== 300) {
+        rounds++;
+        generateRects();
+    }
+    // console.log(rounds);
+
+    // ctx.fillStyle = 'red';
+    // ctx.fillRect((xCM - 3), (yCM - 3), 6, 6);
+});
