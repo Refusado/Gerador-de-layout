@@ -1,40 +1,33 @@
-// GERAR UM NÚMERO ALEATÓRIO SE BASEANDO EM UM MÚLTIPLO 
-function randomMultiple(min, max, multiple) {
-    let result = Math.floor((Math.random() * (max - min) + min));
-    while (result % multiple != 0) {
-        result = Math.floor((Math.random() * (max - min) + min));
-    }
-    return result;
-}
+const canvas = document.getElementById('canvas');
+
+// SISTEMA PARA SÓ EXECUTAR A FUNÇÃO DEPOIS DE UM CERTO TEMPO SEM UM CLICK
+let timer;
+canvas.addEventListener('click', () => {
+    generateRects();
+
+    clearTimeout(timer);
+    timer = setTimeout(() => clearAllRects(), 3000);
+});
 
 class Rect {
     constructor(pX, pY, width, height) {
         this.pX = pX,
-        this.pY = pY,
-        this.width = width,
-        this.height = height,
-        this.eX = this.pX + this.width,
-        this.eY = this.pY + this.height
+            this.pY = pY,
+            this.width = width,
+            this.height = height,
+            this.eX = this.pX + this.width,
+            this.eY = this.pY + this.height
     }
 }
-
-const canvas = document.getElementById('canvas');
-const mainContainer = document.getElementById('container');
-const ctx = canvas.getContext('2d');
-ctx.fillStyle = 'red';
-ctx.fillRect(290, 290, 10, 10);
-
-canvas.onclick = generateRects;
-mainContainer.ondblclick = clearAllRects;
-
 
 let allRects = [];
 
 function generateRects() {
     clearAllRects();
+
     allRects = [];
-    let firstRound = true;
     let rounds = 0;
+    let firstRound = true;
 
     for (let i = 0; i < 4;) {
         rounds++;
@@ -47,6 +40,7 @@ function generateRects() {
         
         if (endX > 620 || endY > 620) continue;
         
+        // SISTEMA PARA SEMPRE QUE HOUVER SOBREPOSIÇÕES O LOOP ATUAL SER REFEITO
         let colision = false;
         if (!firstRound) {
             for (let ii = 0; ii < allRects.length; ii++) {
@@ -70,7 +64,6 @@ function generateRects() {
                 }
             }
         }
-        
         if (colision) continue;
         
         allRects.push(new Rect(randX, randY, randW, randH));
@@ -80,11 +73,8 @@ function generateRects() {
     drawRects();
     // console.info(rounds);
 }
-function clearAllRects() {
-    for (const rect of allRects) {
-        ctx.clearRect(rect.pX, rect.pY, rect.width, rect.height);
-    }
-}
+
+const ctx = canvas.getContext('2d');
 
 function drawRects() {
     for (const rect of allRects) {
@@ -92,4 +82,19 @@ function drawRects() {
         ctx.fillRect(rect.pX, rect.pY, rect.width, rect.height);
         ctx.strokeRect(rect.pX, rect.pY, rect.width, rect.height);
     }
+}
+
+function clearAllRects() {
+    for (const rect of allRects) {
+        ctx.clearRect(rect.pX, rect.pY, rect.width, rect.height);
+    }
+}
+
+// GERAR UM NÚMERO ALEATÓRIO MÚLTIPLO DE UM DADO NÚMERO
+function randomMultiple(min, max, multiple) {
+    let result = Math.floor((Math.random() * (max - min) + min));
+    while (result % multiple != 0) {
+        result = Math.floor((Math.random() * (max - min) + min));
+    }
+    return result;
 }
