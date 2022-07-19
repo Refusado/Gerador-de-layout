@@ -14,7 +14,7 @@ class Rect {
 let allRects = [];
 
 function generateRects() {
-    clearAllRects();
+    ctx.clearRect(0, 0, 600, 600);
 
     allRects = [];
     let rounds = 0;
@@ -86,7 +86,6 @@ function getCenterOfMass() {
         secondCalc.push(mass * posY);
         allMass.push(mass);
 
-
         // ctx.fillStyle = 'blue';
         // ctx.fillRect((posX - 3), (posY - 3), 6, 6);
     }
@@ -106,13 +105,7 @@ function drawRects() {
     for (const rect of allRects) {
         ctx.fillStyle = '#00000044';
         ctx.fillRect(rect.pX, rect.pY, rect.width, rect.height);
-        // ctx.strokeRect(rect.pX, rect.pY, rect.width, rect.height);
-    }
-}
-
-function clearAllRects() {
-    for (const rect of allRects) {
-        ctx.clearRect(rect.pX, rect.pY, rect.width, rect.height);
+        ctx.strokeRect(rect.pX, rect.pY, rect.width, rect.height);
     }
 }
 
@@ -134,13 +127,8 @@ function randomMultiple(min, max, multiple) {
 
 canvas.addEventListener('click', () => {
     generateRects();
-    let rounds = 0;
-    while (xCM !== 300 || yCM !== 300) {
-        rounds++;
-        generateRects();
-    }
-    // console.log(rounds);
+    while (xCM > 320 || xCM < 280 || yCM > 320 || yCM < 280) generateRects();
 
-    // ctx.fillStyle = 'red';
-    // ctx.fillRect((xCM - 3), (yCM - 3), 6, 6);
+    ctx.fillStyle = 'red';
+    ctx.fillRect((xCM - 3), (yCM - 3), 6, 6);
 });
