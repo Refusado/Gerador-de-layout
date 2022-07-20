@@ -4,30 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
     <title>Ajuste Óptico</title>
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
-        main {
-            background-color: #555ca5;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        canvas {
-            background-color: #e9d760;
-        }
-    </style>
 </head>
 <body>
     <main id="container">
-        <canvas id="canvas" width="600" height="600"></canvas>
+        <!-- <canvas id="canvas" width="600" height="600"></canvas> -->
+        <svg id="svg-container" viewBox="0 0 600 600">
+            <rect x="294" y="294" rx="50%" width="6" height="6" fill="red" />
+        </svg>
     </main>
-    <script src="./script.js"></script>
+    <script src="./svg-generator.js"></script>
+    <!-- <script src="./shapes-generator.js"></script> -->
 </body>
 </html>

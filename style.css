@@ -1,0 +1,30 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+main {
+    background-color: #555ca5;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+canvas {
+    background-color: #e9d760;
+}
+
+#svg-container {
+    width: 600px;
+    height: 600px;
+    background-color: #e9d760;
+}
+.shape {
+    fill: #00000044;
+}
+.shape:hover {
+    /* outline: 1px solid white; */
+    fill: #00000081;
+}
